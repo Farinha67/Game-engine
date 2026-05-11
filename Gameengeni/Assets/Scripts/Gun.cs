@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    public GameObject bulletPrefab;
-    public Transform firePoint;
-
-    public float bulletSpeed = 10f;
+    [Header("Configurações de Tiro")]
+    public GameObject bulletPrefab; // Arraste o Prefab da bala aqui
+    public Transform firePoint;     // Arraste o objeto FirePoint aqui
 
     void Update()
     {
+        // Verifica se o botão esquerdo do mouse foi pressionado
         if (Input.GetMouseButtonDown(0))
         {
             Shoot();
@@ -17,20 +17,15 @@ public class Gun : MonoBehaviour
 
     void Shoot()
     {
-        // Cria a bala
-        GameObject bullet = Instantiate(
-            bulletPrefab,
-            firePoint.position,
-            Quaternion.identity
-        );
-
-        // Pega rigidbody
-        Rigidbody rb = bullet.GetComponent<Rigidbody>();
-
-        // Faz a bala seguir a direção da câmera
-        rb.linearVelocity = Camera.main.transform.forward * bulletSpeed;
-
-        // Rotaciona visualmente a bala
-        bullet.transform.forward = Camera.main.transform.forward;
+        // O "if" abaixo checa se você esqueceu de arrastar os objetos no Unity
+        if (bulletPrefab != null && firePoint != null)
+        {
+            Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        }
+        else
+        {
+            // Isso vai aparecer no console se faltar algo, sem travar o jogo
+            Debug.LogError("ERRO: Arraste o Prefab da bala e o FirePoint para o script no Inspector!");
+        }
     }
 }

@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 10f;
-    public float lifeTime = 5f;
+    public float speed = 20f;
+    public int damage = 20;
 
     private Rigidbody rb;
 
@@ -11,15 +11,20 @@ public class Bullet : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        rb.useGravity = false;
-
         rb.linearVelocity = transform.forward * speed;
 
-        Destroy(gameObject, lifeTime);
+        Destroy(gameObject, 5f);
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
+        EnemyHealth enemy = other.GetComponent<EnemyHealth>();
+
+        if (enemy != null)
+        {
+            enemy.TakeDamage(damage);
+        }
+
         Destroy(gameObject);
     }
 }
