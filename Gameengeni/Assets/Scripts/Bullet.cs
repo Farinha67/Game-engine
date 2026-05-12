@@ -2,27 +2,23 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 20f;
-    public int damage = 20;
+    public float speed = 5f;
 
-    private Rigidbody rb;
+    void Update()
+    {
+        transform.position += transform.forward * speed * Time.deltaTime;
+    }
 
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-
-        rb.linearVelocity = transform.forward * speed;
-
         Destroy(gameObject, 5f);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        EnemyHealth enemy = other.GetComponent<EnemyHealth>();
-
-        if (enemy != null)
+        if (other.CompareTag("Enemy"))
         {
-            enemy.TakeDamage(damage);
+            Destroy(other.gameObject);
         }
 
         Destroy(gameObject);

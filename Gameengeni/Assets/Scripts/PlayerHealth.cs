@@ -1,21 +1,26 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour
 {
     public int maxHealth = 100;
+    public int currentHealth;
 
-    private int currentHealth;
+    public Slider healthBar;
 
     void Start()
     {
         currentHealth = maxHealth;
+
+        healthBar.maxValue = maxHealth;
+        healthBar.value = currentHealth;
     }
 
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
 
-        Debug.Log("Vida atual: " + currentHealth);
+        healthBar.value = currentHealth;
 
         if (currentHealth <= 0)
         {
@@ -27,7 +32,7 @@ public class PlayerHealth : MonoBehaviour
     {
         Debug.Log("Player morreu");
 
-        // Desativa o player sem destruir a câmera
-        gameObject.SetActive(false);
+        // Destroi o player
+        Destroy(gameObject);
     }
 }
