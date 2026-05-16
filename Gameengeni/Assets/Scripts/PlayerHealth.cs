@@ -28,11 +28,22 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void Heal(int amount)
+    {
+        currentHealth += amount;
+
+        if (currentHealth > maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+        healthBar.value = currentHealth;
+    }
+
     void Die()
     {
         Debug.Log("Player morreu");
 
-        // Destroi o player
         Destroy(gameObject);
     }
 }
