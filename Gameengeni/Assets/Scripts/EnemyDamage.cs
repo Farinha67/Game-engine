@@ -3,28 +3,24 @@ using UnityEngine;
 public class EnemyDamage : MonoBehaviour
 {
     public int damage = 10;
-
-    // Tempo entre ataques
-    public float attackCooldown = 5f;
+    public float attackCooldown = 1f;
 
     private float nextAttackTime;
 
-    private void OnCollisionStay(Collision collision)
+    private void OnTriggerStay(Collider other)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.CompareTag("Player"))
         {
-            // Verifica se já pode atacar novamente
             if (Time.time >= nextAttackTime)
             {
-                PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+                PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
 
                 if (playerHealth != null)
                 {
                     playerHealth.TakeDamage(damage);
-
-                    // Próximo ataque em 5 segundos
-                    nextAttackTime = Time.time + attackCooldown;
                 }
+
+                nextAttackTime = Time.time + attackCooldown;
             }
         }
     }
