@@ -2,7 +2,9 @@ using UnityEngine;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public int maxHealth = 150;
+    public int maxHealth = 100;
+
+    public GameObject dropItemPrefab;
 
     private int currentHealth;
 
@@ -25,7 +27,7 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Inimigo morreu");
+        Instantiate(dropItemPrefab, transform.position, Quaternion.identity);
 
         Destroy(gameObject);
     }
