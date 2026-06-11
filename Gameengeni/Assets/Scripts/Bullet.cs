@@ -2,21 +2,32 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float speed = 20f;
+    public float speed = 100f;
     public int damage = 25;
+    public float lifeTime = 5f;
+
+    private Rigidbody rb;
 
     void Start()
     {
-        Rigidbody rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
 
+        // Faz a bala andar para frente
         rb.linearVelocity = transform.forward * speed;
 
-        Destroy(gameObject, 5f);
+        // Destrói após alguns segundos
+        Destroy(gameObject, lifeTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        EnemyHealth enemy = collision.gameObject.GetComponent<EnemyHealth>();
+        // Ignora o Player
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            return;
+        }
+
+        EnemyHealth enemy = collision.gameObject.GetComponentInParent<EnemyHealth>();
 
         if (enemy != null)
         {
