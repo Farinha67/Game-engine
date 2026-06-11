@@ -2,18 +2,25 @@ using UnityEngine;
 
 public class EnemyFollow : MonoBehaviour
 {
-    public Transform player;
+    private Transform player;
+
     public float speed = 3f;
+
+    void Start()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObj != null)
+        {
+            player = playerObj.transform;
+        }
+    }
 
     void Update()
     {
-        // Verifica se o player existe
         if (player == null)
-        {
             return;
-        }
 
-        // Faz o enemy seguir o player
         transform.position = Vector3.MoveTowards(
             transform.position,
             player.position,
