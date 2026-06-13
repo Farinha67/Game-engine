@@ -23,7 +23,7 @@ public class FriendNPC : MonoBehaviour
     {
         if (playerPerto && Input.GetKeyDown(KeyCode.E))
         {
-            // Missão do remédio
+            // Missão remédio
             if (!medicineEntregue)
             {
                 if (itemText.text == "Remedio")
@@ -38,21 +38,24 @@ public class FriendNPC : MonoBehaviour
                 }
             }
 
-            // Missão da comida
+            // Missão comida
             else if (!foodEntregue)
             {
                 if (itemText.text == "Alimento")
                 {
                     foodEntregue = true;
                     itemText.text = "";
-                    dialogueText.text = "Obrigado! Agora consigo andar.";
+                    dialogueText.text = "Vamos ate o helicoptero!";
 
                     if (followScript != null)
-                        followScript.podeSeguir = true;
+                    {
+                        followScript.IrProHelicoptero();
+                    }
 
-                    // Desliga trigger de conversa
                     if (sphereCollider != null)
+                    {
                         sphereCollider.enabled = false;
+                    }
                 }
                 else
                 {

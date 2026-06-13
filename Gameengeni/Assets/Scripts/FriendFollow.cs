@@ -4,7 +4,7 @@ using UnityEngine.AI;
 public class FriendFollow : MonoBehaviour
 {
     public Transform player;
-    public bool podeSeguir = false;
+    public Transform helicopterTarget;
 
     private NavMeshAgent agent;
 
@@ -13,11 +13,19 @@ public class FriendFollow : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
     }
 
-    void Update()
+    public void IrProHelicoptero()
     {
-        if (podeSeguir && player != null)
+        if (agent != null && helicopterTarget != null)
         {
-            agent.SetDestination(player.position);
+            agent.SetDestination(helicopterTarget.position);
+        }
+    }
+
+    public void PararSeguir()
+    {
+        if (agent != null)
+        {
+            agent.ResetPath();
         }
     }
 }
