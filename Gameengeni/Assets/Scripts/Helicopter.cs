@@ -1,11 +1,12 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class Helicopter : MonoBehaviour
 {
     private bool playerPerto = false;
     private bool verificou = false;
-    private bool enchendo = false;
+    private bool finalizando = false;
     private float tempoEnchendo = 0f;
 
     public TMP_Text dialogueText;
@@ -14,24 +15,26 @@ public class Helicopter : MonoBehaviour
 
     void Update()
     {
-        if (!playerPerto) return;
+        if (!playerPerto || finalizando)
+            return;
 
-        // Primeira interação
+        // Primeira interação: verificar helicóptero
         if (!verificou && Input.GetKeyDown(KeyCode.E))
         {
             verificou = true;
             dialogueText.text = "SEM COMBUSTIVEL!";
 
-            friendFollow.PararSeguir();
+            if (friendFollow != null)
+                friendFollow.PararSeguir();
+
             Invoke(nameof(FalarNPC), 2f);
         }
 
-        // Encher combustível
+        // Abastecer helicóptero
         if (verificou && itemText.text == "Combustivel")
         {
             if (Input.GetKey(KeyCode.E))
             {
-                enchendo = true;
                 tempoEnchendo += Time.deltaTime;
 
                 dialogueText.text = "ENCHENDO... " + Mathf.FloorToInt(tempoEnchendo) + "/5";
@@ -39,14 +42,15 @@ public class Helicopter : MonoBehaviour
                 if (tempoEnchendo >= 5f)
                 {
                     itemText.text = "";
+                    finalizando = true;
                     dialogueText.text = "Combustivel cheio!";
-                    enabled = false;
+
+                    Invoke(nameof(FinalDoJogo), 2f);
                 }
             }
 
             if (Input.GetKeyUp(KeyCode.E))
             {
-                enchendo = false;
                 tempoEnchendo = 0f;
             }
         }
@@ -54,7 +58,18 @@ public class Helicopter : MonoBehaviour
 
     void FalarNPC()
     {
-        dialogueText.text = "Vou ficar consertando. Busque o combustivel atras da casa.";
+        dialogueText.text = "Esta sem combustivel! Acho que havia um galao atras da casa onde estavamos. Va rapido, eu vou consertando.";
+    }
+
+    void FinalDoJogo()
+    {
+        dialogueText.text = "Vamos embora daqui!";
+        Invoke(nameof(CarregarCenaWin), 2f);
+    }
+
+    void CarregarCenaWin()
+    {
+        SceneManager.LoadScene("WIN");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -64,7 +79,9 @@ public class Helicopter : MonoBehaviour
             playerPerto = true;
 
             if (!verificou)
+            {
                 dialogueText.text = "Pressione E para verificar";
+            }
         }
     }
 
@@ -74,7 +91,11 @@ public class Helicopter : MonoBehaviour
         {
             playerPerto = false;
             tempoEnchendo = 0f;
-            dialogueText.text = "";
+
+            if (!finalizando)
+            {
+                dialogueText.text = "";
+            }
         }
     }
 }

@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59c91141914e1124294acf5060b67d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyDamage
-  damage: 10
+  damage: 20
   attackCooldown: 1
 --- !u!136 &6059560912165162312
 CapsuleCollider:

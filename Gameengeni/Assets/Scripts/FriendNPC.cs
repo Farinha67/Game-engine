@@ -34,7 +34,7 @@ public class FriendNPC : MonoBehaviour
                 }
                 else
                 {
-                    dialogueText.text = "Preciso de remedios!";
+                    dialogueText.text = "Preciso de remedios... Acho que havia um na casa onde voce acordou.";
                 }
             }
 
@@ -59,7 +59,7 @@ public class FriendNPC : MonoBehaviour
                 }
                 else
                 {
-                    dialogueText.text = "Preciso de alimento!";
+                    dialogueText.text = "Estou morrendo de fome... Procure entre as arvores, talvez ache frutas.";
                 }
             }
         }
